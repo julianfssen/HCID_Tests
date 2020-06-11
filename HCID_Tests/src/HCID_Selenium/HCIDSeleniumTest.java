@@ -3,13 +3,19 @@ package HCID_Selenium;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.JavascriptExecutor;
+import java.util.Random;
 
 public class HCIDSeleniumTest {
     public static void main(String[] args) {
-        FirefoxDriver driver = new FirefoxDriver();
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\user\\Desktop\\chromedriver_win32\\chromedriver.exe");
+        ChromeDriver driver = new ChromeDriver();
         driver.get("https://homecredit.iprice.co.id");
+
+        long start = System.nanoTime();
 
         WebDriverWait wait = new WebDriverWait(driver, 5);
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sG tc a2")));
@@ -18,18 +24,68 @@ public class HCIDSeleniumTest {
 
         WebElement sortByPrice = driver.findElementByCssSelector("a[data-vars-lb='Price'");
         sortByPrice.click();
+
         WebElement sortByPopularity = driver.findElementByCssSelector("a[data-vars-lb='Popularity'");
         sortByPopularity.click();
+
+        WebElement pagination = driver.findElementById("pagination");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(true)", pagination);
+
+        WebElement nextPage = driver.findElementByLinkText("Selanjutnya");
+        nextPage.click();
+
+        WebElement goBack = driver.findElementByCssSelector("a[data-vars-lb='0']");
+        goBack.click();
+
+        Random rand = new Random();
+        int position = rand.nextInt(6);
+
+        WebElement brandCarousel = driver.findElementByCssSelector("a[data-vars-lb*='position:" + position + "']");
+        brandCarousel.click();
+
         WebElement offer = driver.findElementByCssSelector("a[data-vars-extras='position:1'");
         offer.click();
+
+        WebElement recommendedCheckout = driver.findElementByCssSelector("a[data-vars-action='pc-recommended-checkout']");
+        recommendedCheckout.click();
         driver.navigate().back();
-        /*
-        int counter = 0;
-        while(counter < 2){
-            sortByPrice.click();
-            //wait.equals(2);
-            counter++;
-        }
-         */
+
+        WebElement cheapestCheckout = driver.findElementByCssSelector("a[data-vars-action='pc-cheapest']");
+        cheapestCheckout.click();
+        driver.navigate().back();
+
+        WebElement normalCheckout = driver.findElementByCssSelector("a[data-vars-action='pc']");
+        normalCheckout.click();
+        driver.navigate().back();
+
+        WebElement moreOffers = driver.findElementByCssSelector("div[data-vars-cgt='click_store_more_offers']");
+        moreOffers.click();
+
+        WebElement productSpecs = driver.findElementById("section-related-product-section");
+        productSpecs.click();
+
+        WebElement relatedProducts = driver.findElementById("section-related-product-section");
+        js.executeScript("arguments[0].scrollIntoView(true)", relatedProducts);
+
+        WebElement relatedOfferCard = driver.findElementByCssSelector("a[data-vars-extras='position:1']");
+        relatedOfferCard.click();
+
+        WebElement offerShortcut = driver.findElementByCssSelector("a[data-vars-cgt='click_shortcut_harga']");
+        offerShortcut.click();
+
+        WebElement specsShortcut = driver.findElementByCssSelector("a[data-vars-cgt='click_shortcut_speks']");
+        specsShortcut.click();
+
+        WebElement relatedProductsShortcut = driver.findElementByCssSelector("a[data-vars-cgt='click_shortcut_produk_serupa']");
+        relatedProductsShortcut.click();
+
+        WebElement backToTop = driver.findElementByCssSelector("i[data-vars-lb='Go to top']");
+        backToTop.click();
+
+        System.out.println("Test passed.");
+        long finish = System.nanoTime();
+        double testTimeInSeconds = (double)((finish - start) / 1_000_000_000.0);
+        System.out.println("HCID Test finished in: " + testTimeInSeconds);
     }
 }
