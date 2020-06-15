@@ -13,7 +13,7 @@ public class HCIDSeleniumTest {
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\user\\Desktop\\chromedriver_win32\\chromedriver.exe");
         ChromeDriver driver = new ChromeDriver();
-        driver.get("https://homecredit.iprice.co.id");
+        driver.get("https://homecredit-id.iprice.mx");
 
         long start = System.nanoTime();
 
@@ -44,8 +44,30 @@ public class HCIDSeleniumTest {
         WebElement brandCarousel = driver.findElementByCssSelector("a[data-vars-lb*='position:" + position + "']");
         brandCarousel.click();
 
+        WebElement filter = driver.findElementByCssSelector("li[class*='filter-toggle']");
+        filter.click();
+
+        WebElement brandFilter = driver.findElementByCssSelector("a[data-vars-cgt*='filter']");
+        //brandFilter.click();
+        js.executeScript("arguments[0].click()", brandFilter);
+
+        WebElement storeFilter = driver.findElementByCssSelector("label[for='toggle-filter']");
+        //storeFilter.click();
+        js.executeScript("arguments[0].click()", storeFilter);
+
+        WebElement filter_next = driver.findElementByCssSelector("li[class*='filter-toggle']");
+        filter_next.click();
+        WebElement minPrice = driver.findElementById("price-min");
+        minPrice.sendKeys("1");
+
+        WebElement searchByPrice = driver.findElementByCssSelector("button[type='submit']");
+        js.executeScript("arguments[0].click()", searchByPrice);
+
+        WebElement showFilterResults = driver.findElementById("bottom-button");
+        js.executeScript("arguments[0].click()", showFilterResults);
+
         WebElement offer = driver.findElementByCssSelector("a[data-vars-extras='position:1'");
-        offer.click();
+        js.executeScript("arguments[0].click()", offer);
 
         WebElement recommendedCheckout = driver.findElementByCssSelector("a[data-vars-action='pc-recommended-checkout']");
         recommendedCheckout.click();
@@ -82,6 +104,17 @@ public class HCIDSeleniumTest {
 
         WebElement backToTop = driver.findElementByCssSelector("i[data-vars-lb='Go to top']");
         backToTop.click();
+
+        driver.get("https://homecredit-id.iprice.mx/search/?term=playstation+4");
+
+        WebElement sortByPriceVS = driver.findElementByCssSelector("a[data-vars-lb='Price'");
+        sortByPriceVS.click();
+
+        WebElement sortByPopularityVS = driver.findElementByCssSelector("a[data-vars-lb='Popularity'");
+        sortByPopularityVS.click();
+
+        WebElement sortByRelevanceVS = driver.findElementByCssSelector("a[data-vars-lb='Popularity'");
+        sortByRelevanceVS.click();
 
         System.out.println("Test passed.");
         long finish = System.nanoTime();
