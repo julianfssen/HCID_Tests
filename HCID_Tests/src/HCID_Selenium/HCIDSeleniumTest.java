@@ -7,6 +7,8 @@ import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
+
+import java.util.List;
 import java.util.Random;
 
 public class HCIDSeleniumTest {
@@ -57,8 +59,8 @@ public class HCIDSeleniumTest {
 
         WebElement filter_next = driver.findElementByCssSelector("li[class*='filter-toggle']");
         filter_next.click();
-        WebElement minPrice = driver.findElementById("price-min");
-        minPrice.sendKeys("1");
+/*        WebElement minPrice = driver.findElementById("price-min");
+        minPrice.sendKeys("1");*/
 
         WebElement searchByPrice = driver.findElementByCssSelector("button[type='submit']");
         js.executeScript("arguments[0].click()", searchByPrice);
@@ -115,6 +117,9 @@ public class HCIDSeleniumTest {
 
         WebElement sortByRelevanceVS = driver.findElementByCssSelector("a[data-vars-lb='Popularity'");
         sortByRelevanceVS.click();
+
+        WebElement quickFilter = driver.findElementByCssSelector("a[data-vars-cgt*='quick_filter']");
+        quickFilter.click();
 
         System.out.println("Test passed.");
         long finish = System.nanoTime();
